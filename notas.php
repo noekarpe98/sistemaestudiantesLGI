@@ -73,18 +73,9 @@ if ($result->num_rows > 0) {
 }
 ?>
 
-<h2>Notas de Estudiantes</h2>
+<div class="header-notas">
 
-<!-- Buscador y filtro de materia -->
-<form method="GET" style="display:flex; justify-content: space-between; align-items: center; margin-bottom:20px; gap: 10px;">
-    <div style="display:flex; align-items:center; gap:5px;">
-        <input type="text" name="buscar" placeholder="Buscar por nombre o DNI" 
-               value="<?= htmlspecialchars($buscar) ?>" class="input-buscar">
-        <button type="submit" class="btn-azul">Buscar</button>
-    </div>
-
-    <div>
-        <label for="materia">Filtrar por materia:</label>
+    <form method="GET" class="buscar-notas">
         <select name="materia" id="materia" onchange="this.form.submit()">
             <option value="0">Todas</option>
             <?php foreach ($materias as $id_m => $nombre_m): ?>
@@ -93,19 +84,22 @@ if ($result->num_rows > 0) {
                 </option>
             <?php endforeach; ?>
         </select>
-    </div>
-</form>
 
-<!-- 🔹 Botón de agregar nota -->
-<div style="margin-bottom:25px; text-align:right;">
-    <a href="alta_notas.php" class="btn-azul">Agregar Nota Nueva</a>
+        <input type="text" name="buscar" placeholder="Buscar por nombre o DNI" value="<?= htmlspecialchars($buscar) ?>">
+
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Botón Agregar Nota -->
+    <a href="alta_notas.php"><button class="btn-azul">Agregar Nota Nueva</button></a>
 </div>
+
 
 <table border="1" cellpadding="8" cellspacing="0" style="width:100%; text-align:center;">
     <tr>
         <th>Nombre</th>
-        <th>Carrera</th>
         <th>DNI</th>
+        <th>Carrera</th>
         <th>Materia</th>
         <th>Nota 1</th>
         <th>Nota 2</th>
@@ -116,8 +110,8 @@ if ($result->num_rows > 0) {
         <?php foreach ($est['notas'] as $n): ?>
             <tr>
                 <td><?= htmlspecialchars($est['nombre']) ?></td>
-                <td><?= htmlspecialchars($est['carrera']) ?></td>
                 <td><?= htmlspecialchars($est['dni']) ?></td>
+                <td><?= htmlspecialchars($est['carrera']) ?></td>
                 <td><?= htmlspecialchars($n['materia']) ?></td>
                 <td><?= htmlspecialchars($n['nota1']) ?></td>
                 <td><?= htmlspecialchars($n['nota2']) ?></td>
@@ -132,6 +126,7 @@ if ($result->num_rows > 0) {
         <?php endforeach; ?>
     <?php endforeach; ?>
 </table>
+
 
 <?php include 'footer.php'; ?>
 

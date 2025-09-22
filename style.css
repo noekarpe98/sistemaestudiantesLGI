@@ -94,7 +94,7 @@ footer {
 .btn-cancelar,
 .btn-accion {
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
@@ -307,23 +307,97 @@ select {
     margin-bottom: 25px;
 }
 
-/* ====== BUSCADOR ====== */
-form.buscar-alumno {
+/* ====== HEADER NOTAS ====== */
+.header-notas {
     display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-    margin-bottom: 10px;
+    justify-content: space-between; /* buscador+filtro a la izquierda, botón a la derecha */
+    align-items: center;            /* alineación vertical */
+    gap: 20px;
+    margin-bottom: 20px;
+    margin-top: 50px;
 }
 
-form.buscar-alumno input[type="text"] {
-    padding: 10px 50px;
+form.buscar-notas {
+    display: flex;
+    flex-direction: row; /* todo en una fila */
+    align-items: center;
+    gap: 10px;           /* espacio entre input, select y botón buscar */
+}
+
+form.buscar-notas input[type="text"],
+form.buscar-notas select,
+form.buscar-notas button,
+.btn-azul {
+    height: 40px;         /* mismo alto para todos */
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form.buscar-notas input[type="text"] {
+    width: 300px;
+    padding: 0 10px;
+}
+
+form.buscar-notas select {
+    width: 500px;
+    padding: 0 5px;
+}
+
+form.buscar-notas button,
+.btn-azul {
+    padding: 0 20px;
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+form.buscar-notas button:hover,
+.btn-azul:hover {
+    background-color: #0d47a1;
+}
+
+
+/* ====== filtro materias ====== */
+
+form.buscar-notas select {
+    padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
-    width: 250px;
+    height: 40px;
+    width: 300px;
 }
 
-form.buscar-alumno button {
+
+/* ====== HEADER ALUMNOS ====== */
+
+.header-estudiantes {
+    display: flex;
+    justify-content: space-between; /* buscador izquierda, botón derecha */
+    align-items: center;           /* alineación vertical */
+    margin-bottom: 20px; 
+    margin-top: 50px;          /* espacio con la tabla */
+    gap: 10px;                     /* separación si se enciman */
+}
+
+form.buscar-alumno {
+    display: flex;
+    gap: 5px;
+}
+
+form.buscar-alumno input[type="text"] {
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 300px;
+}
+
+form.buscar-alumno button,
+.btn-azul {
     padding: 10px 20px;
     border-radius: 5px;
     background-color: #1565c0;
@@ -334,7 +408,61 @@ form.buscar-alumno button {
     transition: background-color 0.2s ease;
 }
 
-form.buscar-alumno button:hover {
+form.buscar-alumno button:hover,
+.btn-azul:hover {
+    background-color: #0d47a1;
+}
+
+
+/* ====== HEADER MATERIAS ====== */
+.header-materias {
+    display: flex;
+    justify-content: space-between; /* buscador+filtro izquierda, botón derecha */
+    align-items: center;            /* alineación vertical */
+    gap: 20px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+form.buscar-materias {
+    display: flex;
+    flex-direction: row; /* todo en fila */
+    align-items: center;
+    gap: 10px;           /* espacio entre select, input y botón */
+}
+
+form.buscar-materias select,
+form.buscar-materias input[type="text"],
+form.buscar-materias button,
+.btn-alta {
+    height: 40px;         /* mismo alto para todos */
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form.buscar-materias select {
+    width: 300px;
+    padding: 0 5px;
+}
+
+form.buscar-materias input[type="text"] {
+    width: 300px;
+    padding: 0 10px;
+}
+
+form.buscar-materias button,
+.btn-alta {
+    padding: 0 20px;
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+form.buscar-materias button:hover,
+.btn-alta:hover {
     background-color: #0d47a1;
 }
 

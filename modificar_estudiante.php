@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_id'])) {
         <tr>
             <td colspan="2" style="text-align: center;">
                 <button type="submit" class="btn-alta">Guardar cambios</button>
-                <a href="estudiantes.php" class="btn-alta" style="background-color:#95a5a6; margin-left:10px;">Cancelar</a>
+                <a href="estudiantes.php" class="btn-cancelar">Cancelar</a>
             </td>
         </tr>
     </table>
