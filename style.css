@@ -1,0 +1,445 @@
+/* ====== BODY Y TIPOGRAFÍA ====== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #e3f2fd; /* Azul claro de fondo */
+    color: #333;
+}
+
+h1 {
+    color: #1565c0; /* Azul vivo */
+}
+
+h2 {
+    color: #1565c0;
+    text-align: center;
+}
+
+/* ====== ENLACES ====== */
+a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ====== LISTAS ====== */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+/* ====== TABLAS ====== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background: #fff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #1e88e5; /* Azul tabla */
+    color: #fff;
+    text-transform: uppercase;
+}
+
+table tr:nth-child(even) {
+    background-color: #f1f7fc;
+}
+
+table tr:hover {
+    background-color: #bbdefb;
+}
+
+/* ====== RESUMEN ====== */
+.summary {
+    background: #fff;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* ====== FOOTER ====== */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    color: #555;
+}
+
+/* ====== BOTONES UNIFICADOS ====== */
+.btn-alta,
+.btn-azul,
+.btn-guardar_notas,
+.btn-inspeccionar,
+.btn-borrar,
+.btn-eliminar,
+.btn-modificar,
+.btn-cancelar,
+.btn-accion {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+    
+}
+
+.btn-alta:hover,
+.btn-azul:hover,
+.btn-guardar_notas:hover,
+.btn-inspeccionar:hover,
+.btn-borrar:hover,
+.btn-eliminar:hover,
+.btn-modificar:hover,
+.btn-cancelar:hover,
+.btn-accion:hover {
+    transform: scale(1.05);
+}
+
+/* Colores por tipo de botón */
+.btn-azul {
+    background-color: #1565c0;
+}
+.btn-azul:hover { background-color: #0d47a1; }
+
+.btn-alta {
+    background-color: #1e88e5;
+}
+.btn-alta:hover { background-color: #1565c0; }
+
+.btn-guardar_notas {
+    background-color: #1e88e5;
+}
+.btn-guardar_notas:hover { background-color: #1565c0; }
+
+.btn-inspeccionar {
+    background-color: #dfce13;
+}
+.btn-inspeccionar:hover { background-color: #dfce13; }
+
+.btn-borrar,
+.btn-eliminar {
+    background-color: #e74c3c;
+}
+.btn-borrar:hover,
+.btn-eliminar:hover { background-color: #c62828; }
+
+.btn-modificar {
+    background-color: #dfce13;
+}
+.btn-modificar:hover { background-color: #dfce13; }
+
+.btn-cancelar {
+    background-color: #95a5a6;
+}
+.btn-cancelar:hover { background-color: #7f8c8d; }
+
+.btn-accion {
+    background-color: #1565c0;
+}
+.btn-accion:hover { background-color: #0d47a1; }
+
+/* ====== FORMULARIOS ====== */
+input {
+    width: 95%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* ====== HEADER Y NAVEGACIÓN ====== */
+header {
+    background-color: #1565c0; 
+    color: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0 0 12px 0;
+    font-size: 30px;
+}
+
+nav.navbar {
+    background-color: #1e88e5; 
+    border-radius: 5px;
+    padding: 10px 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+nav.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav.navbar ul li {
+    margin: 0 8px;
+}
+
+nav.navbar ul li a {
+    display: block;
+    padding: 12px 25px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    border-radius: 6px;
+}
+
+nav.navbar ul li a:hover {
+    background-color: #64b5f6; 
+    color: #000;
+    transform: scale(1.1);
+}
+
+nav.navbar ul li a.active {
+    background-color: #1976d2;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    nav.navbar ul { flex-direction: column; }
+    nav.navbar ul li a {
+        padding: 12px;
+        margin: 5px 0;
+    }
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    background-color: #42a5f5;
+    margin-top: 15px;
+}
+
+/* ====== SELECT CARRERAS ====== */
+select[name="carrera"] {
+    width: 95%;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #3498db;
+    background-color: #ecf6fc;
+    color: #2c3e50;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%233498db" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+}
+
+select[name="carrera"]:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+    outline: none;
+}
+
+select[name="carrera"] option {
+    padding: 8px;
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+select {
+    width: 95%;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+/* ====== MODAL ====== */
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.modal-text {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+/* ====== BUSCADOR ====== */
+form.buscar-alumno {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+form.buscar-alumno input[type="text"] {
+    padding: 10px 50px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 250px;
+}
+
+form.buscar-alumno button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+form.buscar-alumno button:hover {
+    background-color: #0d47a1;
+}
+
+/* ====== DASHBOARD ====== */
+.charts-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.chart-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chart-box h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.chart-box canvas {
+    max-width: 320px;
+    max-height: 300px;
+    margin: auto;
+}
+
+/* ====== login ====== */
+
+/* Contenedor del login centrado */
+.login-container {
+    width: 400px;
+    max-width: 90%;
+    margin: 80px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* Título del login */
+.login-container h2 {
+    color: #1565c0;
+    margin-bottom: 25px;
+}
+
+/* Formulario del login */
+.form-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Inputs del login */
+.input-login {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botón ingresar */
+.btn-azul {
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-azul:hover {
+    background-color: #0d47a1;
+}
+
+/* Mensaje de error */
+.mensaje-error {
+    color: red;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
