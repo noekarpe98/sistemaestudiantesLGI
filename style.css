@@ -480,7 +480,6 @@ form.buscar-materias button:hover,
     margin-top: 50px    ;
 }
 
-/* Estilo general para todos los selects dentro de filtros */
 .header-reportes select {
     height: 40px;        /* alto del select */
     font-size: 14px;
@@ -490,12 +489,11 @@ form.buscar-materias button:hover,
     width: 300px;
     background-color: #fff;   /* 🔹 color de fondo */
     color: #333;              /* 🔹 color del texto */
-    appearance: none;
-    -webkit-appearance: none;
+    appearance: auto;
+    -webkit-appearance: auto;
     -moz-appearance: none;
+    
 }
-
-/* Opcional: cambiar ancho individual de cada select */
 
 .header-reportes select.materia {
     min-width: 320px;

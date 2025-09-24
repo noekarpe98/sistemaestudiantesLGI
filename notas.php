@@ -118,9 +118,7 @@ if ($result->num_rows > 0) {
                 <td><?= htmlspecialchars($n['nota3']) ?></td>
                 <td>
                     <a class="btn btn-inspeccionar" 
-                       href="modificar_notas.php?id_alumno=<?= $id ?>&id_materia=<?= $n['id_materia'] ?>">
-                        Modificar
-                    </a>
+                       href="modificar_notas.php?id_alumno=<?= $id ?>&id_materia=<?= $n['id_materia'] ?>"><i class="fas fa-edit"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>

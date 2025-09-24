@@ -92,8 +92,8 @@ $result = $stmt->get_result();
             <td><?= htmlspecialchars($row['materia']) ?></td>
             <td><?= htmlspecialchars($row['profesor_nombre'] . ' ' . $row['profesor_apellido']) ?></td>
             <td>
-                <a href="modificar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-modificar">Modificar</a>
-                <a href="eliminar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-borrar">Eliminar</a>
+                <a href="modificar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-modificar"><i class="fas fa-edit"></i></a>
+                <a href="eliminar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-borrar"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
     <?php endwhile; ?>

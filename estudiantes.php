@@ -55,10 +55,10 @@ if ($result->num_rows > 0) {
         <td><?= htmlspecialchars($est['carrera']) ?></td>
         <td>
             <a href="modificar_estudiante.php?id=<?= $id ?>">
-                <button class="btn-modificar">Modificar</button>
+                <button class="btn-modificar"><i class="fas fa-edit"></i></button>
             </a>
             <a href="eliminar_estudiante.php?id=<?= $id ?>">
-                <button class="btn-borrar">Borrar</button>
+                <button class="btn-borrar"><i class="fas fa-trash"></i></button>
             </a>
         </td>
     </tr>
