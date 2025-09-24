@@ -26,7 +26,9 @@
                 <li><a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">Inicio</a></li>
                 <li><a href="estudiantes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'estudiantes.php' ? 'active' : '' ?>">Alumnos</a></li>
                 <li><a href="notas.php" class="<?= basename($_SERVER['PHP_SELF']) == 'notas.php' ? 'active' : '' ?>">Notas</a></li>
+                <li><a href="carreras.php" class="<?= basename($_SERVER['PHP_SELF']) == 'carreras.php' ? 'active' : '' ?>">Carreras</a></li>
                 <li><a href="materias.php" class="<?= basename($_SERVER['PHP_SELF']) == 'materias.php' ? 'active' : '' ?>">Materias</a></li>
+                <li><a href="profesores.php" class="<?= basename($_SERVER['PHP_SELF']) == 'profesores.php' ? 'active' : '' ?>">Profesores</a></li>
                 <li><a href="reportes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'reportes.php' ? 'active' : '' ?>">Reportes</a></li>
                 
             </ul>
