@@ -3,108 +3,121 @@ include 'conexion.php';
 include 'header.php';
 include 'funciones.php';
 
-// 1️⃣ Obtener todos los estudiantes con su carrera
-$sql = "SELECT a.id_alumno, a.nombre, a.apellido, c.nombre AS carrera
-        FROM alumnos a
-        LEFT JOIN carreras c ON a.id_carrera = c.id_carrera";
-$result = $conn->query($sql);
-
-$estudiantes = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $id = $row['id_alumno'];
-        $estudiantes[$id] = [
-            'nombre' => $row['nombre'] . ' ' . $row['apellido'],
-            'carrera' => $row['carrera'],
-            'notas' => []
-        ];
-
-        // Obtener notas de cada estudiante
-        $sql_notas = "SELECT nota1, nota2, nota3 FROM notas WHERE id_alumno = $id";
-        $res_notas = $conn->query($sql_notas);
-        if ($res_notas->num_rows > 0) {
-            $notas_row = $res_notas->fetch_assoc();
-            $estudiantes[$id]['notas'] = [
-                $notas_row['nota1'],
-                $notas_row['nota2'],
-                $notas_row['nota3']
-            ];
-        }
-    }
+// 🔹 Obtener materias y carreras
+$materias_result = $conn->query("SELECT id_materia, nombre FROM materias ORDER BY nombre ASC");
+$materias = [];
+while($m = $materias_result->fetch_assoc()){
+    $materias[$m['id_materia']] = $m['nombre'];
 }
 
-// 2️⃣ Obtener filtro seleccionado
-$filtro = $_GET['filtro'] ?? 'todos';
+$carreras_result = $conn->query("SELECT id_carrera, nombre FROM carreras ORDER BY nombre ASC");
+$carreras = [];
+while($c = $carreras_result->fetch_assoc()){
+    $carreras[$c['id_carrera']] = $c['nombre'];
+}
 
-// 3️⃣ Calcular mejor estudiante según filtro
-$mejorPromedio = 0;
-$mejorEstudiante = "";
-foreach ($estudiantes as $est) {
-    $prom = calcularPromedio($est['notas']);
+// 🔹 Capturar filtros
+$filtro_materia = isset($_GET['materia']) ? intval($_GET['materia']) : 0;
+$filtro_estado = $_GET['estado'] ?? 'todos';
+$filtro_carrera = isset($_GET['carrera']) ? intval($_GET['carrera']) : 0;
 
-    // Aplicar filtro
-    if ($filtro == 'aprobados' && $prom < 6) continue;
-    if ($filtro == 'desaprobados' && $prom >= 6) continue;
+// 🔹 Traer estudiantes según filtros
+$sql = "SELECT a.id_alumno, a.nombre, a.apellido, c.nombre AS carrera
+        FROM alumnos a
+        LEFT JOIN carreras c ON a.id_carrera = c.id_carrera
+        WHERE 1=1";
+if ($filtro_carrera > 0) $sql .= " AND a.id_carrera = $filtro_carrera";
 
-    if ($prom > $mejorPromedio) {
-        $mejorPromedio = $prom;
-        $mejorEstudiante = $est['nombre'];
+$result = $conn->query($sql);
+$estudiantes = [];
+if($result->num_rows>0){
+    while($row = $result->fetch_assoc()){
+        $id = $row['id_alumno'];
+        $estudiantes[$id] = [
+            'nombre'=>$row['nombre'].' '.$row['apellido'],
+            'carrera'=>$row['carrera'],
+            'notas'=>[]
+        ];
+
+        $sql_notas = "SELECT n.nota1,n.nota2,n.nota3,m.nombre AS materia,m.id_materia
+                      FROM notas n
+                      INNER JOIN materias m ON n.id_materia = m.id_materia
+                      WHERE n.id_alumno = $id";
+        if($filtro_materia>0) $sql_notas.=" AND m.id_materia=$filtro_materia";
+
+        $res_notas = $conn->query($sql_notas);
+        while($n = $res_notas->fetch_assoc()) $estudiantes[$id]['notas'][]=$n;
     }
 }
 ?>
 
-<h2>Reporte de Estudiantes</h2>
+<!-- 🔹 Header filtros + export -->
+<div class="header-reportes" style="display:flex; justify-content: space-between; align-items: center;">
+    
+    <!-- Filtros (izquierda) -->
+    <form method="GET" style="display:flex; gap:10px; align-items:center;">
+        <select name="carrera" class="carrera" onchange="this.form.submit()">
+            <option value="0">Todas las carreras</option>
+            <?php foreach($carreras as $id_c => $nombre_c): ?>
+                <option value="<?= $id_c ?>" <?= $filtro_carrera==$id_c?'selected':'' ?>><?= htmlspecialchars($nombre_c) ?></option>
+            <?php endforeach; ?>
+        </select>
 
-<!-- Filtro alineado a la derecha -->
-<div class="filtro-container" style="display:flex; justify-content:flex-end; margin-bottom:20px;">
-    <form method="GET">
-        <label for="filtro">Filtrar por:</label>
-        <select name="filtro" id="filtro" onchange="this.form.submit()" style="width:400px; height:40px; font-size:14px; padding:5px; border-radius:5px;">
-            <option value="todos" <?= ($filtro == 'todos') ? 'selected' : '' ?>>Todos</option>
-            <option value="aprobados" <?= ($filtro == 'aprobados') ? 'selected' : '' ?>>Aprobados </option>
-            <option value="desaprobados" <?= ($filtro == 'desaprobados') ? 'selected' : '' ?>>Desaprobados </option>
+        <select name="materia" class="materia" onchange="this.form.submit()">
+            <option value="0">Todas las materias</option>
+            <?php foreach($materias as $id_m => $nombre_m): ?>
+                <option value="<?= $id_m ?>" <?= $filtro_materia==$id_m?'selected':'' ?>><?= htmlspecialchars($nombre_m) ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <select name="estado" class="estado" onchange="this.form.submit()">
+            <option value="todos" <?= $filtro_estado=='todos'?'selected':'' ?>>Todos</option>
+            <option value="aprobados" <?= $filtro_estado=='aprobados'?'selected':'' ?>>Aprobados</option>
+            <option value="desaprobados" <?= $filtro_estado=='desaprobados'?'selected':'' ?>>Desaprobados</option>
         </select>
     </form>
+
+    <!-- Botón Exportar (derecha) -->
+    <a href="exportarExcel.php?<?php
+        $qs = $_GET; // paso los filtros actuales
+        echo http_build_query($qs);
+    ?>" class="btn-exportar" style="margin-left: 20px;">Exportar a Excel</a>
 </div>
 
-<!-- Tabla de estudiantes -->
+
+<!-- 🔹 Tabla -->
 <table border="1" cellpadding="8" cellspacing="0" style="width:100%; text-align:center;">
     <tr>
         <th>Nombre</th>
         <th>Carrera</th>
-        <th>Nota 1</th>
-        <th>Nota 2</th>
-        <th>Nota 3</th>
+        <th>Materia</th>
+        <th>Nota1</th>
+        <th>Nota2</th>
+        <th>Nota3</th>
         <th>Promedio</th>
     </tr>
-    <?php foreach ($estudiantes as $est): 
-        $prom = calcularPromedio($est['notas']);
-
-        // Aplicar filtro
-        if ($filtro == 'aprobados' && $prom < 6) continue;
-        if ($filtro == 'desaprobados' && $prom >= 6) continue;
-    ?>
-    <tr>
-        <td><?= htmlspecialchars($est['nombre']) ?></td>
-        <td><?= htmlspecialchars($est['carrera']) ?></td>
-        <td><?= isset($est['notas'][0]) ? htmlspecialchars($est['notas'][0]) : "-" ?></td>
-        <td><?= isset($est['notas'][1]) ? htmlspecialchars($est['notas'][1]) : "-" ?></td>
-        <td><?= isset($est['notas'][2]) ? htmlspecialchars($est['notas'][2]) : "-" ?></td>
-        <td><?= number_format($prom, 2) ?></td>
-    </tr>
+    <?php foreach($estudiantes as $est): ?>
+        <?php foreach($est['notas'] as $n):
+            $prom = calcularPromedio([$n['nota1'],$n['nota2'],$n['nota3']]);
+            if($filtro_estado=='aprobados' && $prom<6) continue;
+            if($filtro_estado=='desaprobados' && $prom>=6) continue;
+        ?>
+        <tr>
+            <td><?= htmlspecialchars($est['nombre']) ?></td>
+            <td><?= htmlspecialchars($est['carrera']) ?></td>
+            <td><?= htmlspecialchars($n['materia']) ?></td>
+            <td><?= htmlspecialchars($n['nota1']) ?></td>
+            <td><?= htmlspecialchars($n['nota2']) ?></td>
+            <td><?= htmlspecialchars($n['nota3']) ?></td>
+            <td><?= number_format($prom,2) ?></td>
+        </tr>
+        <?php endforeach; ?>
     <?php endforeach; ?>
 </table>
 
-<!-- Mejor estudiante -->
-<div class="summary" style="margin-top:20px;">
-    <h2>Mayor Promedio</h2>
-    <?php if($mejorEstudiante): ?>
-        <p><strong><?= htmlspecialchars($mejorEstudiante) ?></strong> con promedio de <?= number_format($mejorPromedio, 2) ?></p>
-    <?php else: ?>
-        <p>No hay estudiantes que cumplan el filtro seleccionado.</p>
-    <?php endif; ?>
-</div>
-
 <?php include 'footer.php'; ?>
+
+
+
 
 

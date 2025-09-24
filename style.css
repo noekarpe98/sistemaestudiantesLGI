@@ -92,9 +92,10 @@ footer {
 .btn-eliminar,
 .btn-modificar,
 .btn-cancelar,
+.btn-exportar,
 .btn-accion {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
@@ -119,6 +120,9 @@ footer {
 }
 
 /* Colores por tipo de botón */
+.btn-exportar {
+    background-color: #388e3c;
+}
 .btn-azul {
     background-color: #1565c0;
 }
@@ -465,6 +469,48 @@ form.buscar-materias button:hover,
 .btn-alta:hover {
     background-color: #0d47a1;
 }
+
+
+/* ====== HEADER REPORTES ====== */
+.header-reportes {
+    display: flex;
+    gap: 15px;             /* espacio entre filtros */
+    align-items: center;   /* alineación vertical */
+    margin-bottom: 20px;
+    margin-top: 50px    ;
+}
+
+/* Estilo general para todos los selects dentro de filtros */
+.header-reportes select {
+    height: 40px;        /* alto del select */
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+    background-color: #fff;   /* 🔹 color de fondo */
+    color: #333;              /* 🔹 color del texto */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Opcional: cambiar ancho individual de cada select */
+
+.header-reportes select.materia {
+    min-width: 320px;
+}
+
+.header-reportes select.estado {
+    min-width: 320px;
+}
+
+.header-carrera select.carrera {
+    min-width: 320px;
+}
+
+
+
 
 /* ====== DASHBOARD ====== */
 .charts-row {

@@ -76,9 +76,7 @@ $promedioGeneral = ($total > 0) ? $sumaPromedios / $total : 0;
 ?>
 
 <div class="summary">
-    <h2>Resumen General</h2>
-    <p>Total de estudiantes: <?= $total ?></p>
-    <p>Promedio general: <?= number_format($promedioGeneral, 2) ?></p>
+    <h2>Resumen Estadístico</h2>
 
     <div class="charts-row">
         <!-- Promedio por carrera -->
