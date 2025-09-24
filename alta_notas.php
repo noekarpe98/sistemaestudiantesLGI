@@ -5,7 +5,9 @@ include 'header.php';
 // Obtener lista de materias
 $materias_result = $conn->query("SELECT id_materia, nombre FROM materias ORDER BY nombre ASC");
 
-// Si se envió el formulario
+$mensaje = "";
+
+// Procesar formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dni = trim($_POST['dni']);
     $materia = intval($_POST['materia']);
@@ -29,17 +31,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $insert->execute();
         $insert->close();
 
-        echo "<p style='color:green; text-align:center;'>Nota agregada correctamente.</p>";
+        // Mensaje de éxito
+        $mensaje = "<p style='color:green; text-align:center;'>Nota agregada correctamente.</p>";
+
+        // Redirección automática a notas.php después de 2 segundos
+        echo "<script>
+                setTimeout(function() {
+                    window.location.href = 'notas.php';
+                }, 2000);
+              </script>";
     } else {
-        echo "<p style='color:red; text-align:center;'>No se encontró un alumno con ese DNI.</p>";
+        $mensaje = "<p style='color:red; text-align:center;'>No se encontró un alumno con ese DNI.</p>";
     }
 }
 ?>
 
 <h2 style="text-align:center;">Alta de Notas</h2>
 
+<?php if ($mensaje) echo $mensaje; ?>
+
 <form method="POST" class="form-alta">
-    <table>
+    <table style="width:100%; border-collapse: collapse; background:#fff; box-shadow: 0 3px 6px rgba(0,0,0,0.15);">
         <tr>
             <th>DNI Alumno</th>
             <td>
@@ -78,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="nota3" step="0.01" min="0" max="10"></td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align:center;">
+            <td colspan="2" style="text-align:center; padding:15px;">
                 <button type="submit" class="btn-azul">Guardar Nota</button>
                 <button type="button" class="btn-cancelar" onclick="window.location.href='notas.php'">Cancelar</button>
             </td>
@@ -106,4 +118,5 @@ function buscarAlumno() {
 </script>
 
 <?php include 'footer.php'; ?>
+
 

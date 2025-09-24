@@ -1,24 +1,20 @@
 <?php
 include 'conexion.php';
-include 'header.php'; 
+include 'header.php';
 
-// Activar errores de PHP para depuración (opcional)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Obtener todas las carreras para el select
+// Traer todas las carreras
 $carreras_result = $conn->query("SELECT id_carrera, nombre FROM carreras ORDER BY nombre ASC");
 
-// Manejar el envío del formulario
+$mensaje = "";
+
+// Procesar formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener datos del formulario
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $dni = $_POST['dni'];
+    $nombre = trim($_POST['nombre']);
+    $apellido = trim($_POST['apellido']);
+    $dni = trim($_POST['dni']);
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $email = $_POST['correo']; // input "correo" mapeado a columna "email"
-    $id_carrera = intval($_POST['carrera']); 
+    $email = $_POST['correo'];
+    $id_carrera = intval($_POST['carrera']);
 
     // 1️⃣ Verificar si el DNI ya existe
     $check = $conn->prepare("SELECT id_alumno FROM alumnos WHERE dni = ?");
@@ -27,16 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "<p style='color:red; text-align:center;'>Error: Ya existe un alumno con ese DNI.</p>";
+        $mensaje = "<p style='color:red; text-align:center;'>Error: Ya existe un alumno con ese DNI.</p>";
     } else {
         // 2️⃣ Insertar alumno
         $stmt = $conn->prepare("INSERT INTO alumnos (nombre, apellido, dni, fecha_nacimiento, email, id_carrera) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssi", $nombre, $apellido, $dni, $fecha_nacimiento, $email, $id_carrera);
 
         if ($stmt->execute()) {
-            echo "<p style='color:green; text-align:center;'>Alumno agregado correctamente.</p>";
+            $mensaje = "<p style='color:green; text-align:center;'>Alumno agregado correctamente.</p>";
+            // Redirigir a la tabla después de 2 segundos
+            echo "<script>
+                    setTimeout(function() {
+                        window.location.href = 'estudiantes.php';
+                    }, 2000);
+                  </script>";
         } else {
-            echo "<p style='color:red; text-align:center;'>Error: " . $stmt->error . "</p>";
+            $mensaje = "<p style='color:red; text-align:center;'>Error: " . $stmt->error . "</p>";
         }
 
         $stmt->close();
@@ -44,10 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $check->close();
 }
-
 ?>
-
 <h2>Dar de Alta un Alumno</h2>
+
+<?php if ($mensaje) echo $mensaje; ?>
 
 <form method="POST" class="form-alta">
     <table>
@@ -91,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </form>
 
 <?php include 'footer.php'; ?>
+
 
 
 
