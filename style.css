@@ -633,6 +633,39 @@ form.buscar-materias button:hover,
     font-weight: bold;
 }
 
+/* ====== CERRAR SESION ====== */
+
+.usuario-box {
+    position: absolute;
+    top: 10px; /* distancia desde el borde superior */
+    right: 20px; /* distancia desde el borde derecho */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 30px;
+}
+
+.usuario-nombre {
+    color: #fff; /* blanco para que se vea sobre el header */
+    font-weight: bold;
+}
+
+.btn-logout {
+    background-color: #5e92f3;
+    color: rgb(0, 0, 0);
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #8d8bff;
+}
+
 
 
 

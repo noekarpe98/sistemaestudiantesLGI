@@ -1,8 +1,10 @@
-<?php include 'conexion.php';
-?>
-
 <?php
-// header.php
+session_start();
+include 'conexion.php';
+
+// Verificamos si hay sesión activa
+$usuario = $_SESSION['username'] ?? null;
+$rol = $_SESSION['rol'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,22 +18,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Playfair+Display&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <header>
         <h1>Sistema de Registro de Estudiantes</h1>
+
+        <?php if ($usuario): ?>
+            <div class="usuario-box">
+                <span class="usuario-nombre">👤 <?= htmlspecialchars($usuario) ?> (<?= $rol ?>)</span>
+                <a href="logout.php" class="btn-logout">Cerrar sesión</a>
+            </div>
+        <?php endif; ?>
+
         <nav class="navbar">
             <ul>
                 <li><a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">Inicio</a></li>
-                <li><a href="estudiantes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'estudiantes.php' ? 'active' : '' ?>">Alumnos</a></li>
-                <li><a href="notas.php" class="<?= basename($_SERVER['PHP_SELF']) == 'notas.php' ? 'active' : '' ?>">Notas</a></li>
-                <li><a href="carreras.php" class="<?= basename($_SERVER['PHP_SELF']) == 'carreras.php' ? 'active' : '' ?>">Carreras</a></li>
-                <li><a href="materias.php" class="<?= basename($_SERVER['PHP_SELF']) == 'materias.php' ? 'active' : '' ?>">Materias</a></li>
-                <li><a href="profesores.php" class="<?= basename($_SERVER['PHP_SELF']) == 'profesores.php' ? 'active' : '' ?>">Profesores</a></li>
-                <li><a href="reportes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'reportes.php' ? 'active' : '' ?>">Reportes</a></li>
-                
+
+                <!-- Admin -->
+                <?php if ($rol === 'admin'): ?>
+                    <li><a href="carreras.php" class="<?= basename($_SERVER['PHP_SELF']) == 'carreras.php' ? 'active' : '' ?>">Carreras</a></li>
+                    <li><a href="materias.php" class="<?= basename($_SERVER['PHP_SELF']) == 'materias.php' ? 'active' : '' ?>">Materias</a></li>
+                    <li><a href="profesores.php" class="<?= basename($_SERVER['PHP_SELF']) == 'profesores.php' ? 'active' : '' ?>">Profesores</a></li>
+                    <li><a href="estudiantes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'estudiantes.php' ? 'active' : '' ?>">Alumnos</a></li>
+                    <li><a href="notas.php" class="<?= basename($_SERVER['PHP_SELF']) == 'notas.php' ? 'active' : '' ?>">Notas</a></li>
+                    <li><a href="reportes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'reportes.php' ? 'active' : '' ?>">Reportes</a></li>
+                <?php endif; ?>
+
+                <!-- Profesor -->
+                <?php if ($rol === 'profesor'): ?>
+                    <li><a href="estudiantes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'estudiantes.php' ? 'active' : '' ?>">Alumnos</a></li>
+                    <li><a href="notas.php" class="<?= basename($_SERVER['PHP_SELF']) == 'notas.php' ? 'active' : '' ?>">Notas</a></li>
+                    <li><a href="reportes.php" class="<?= basename($_SERVER['PHP_SELF']) == 'reportes.php' ? 'active' : '' ?>">Reportes</a></li>
+                <?php endif; ?>
+
+                <!-- Alumno -->
+                <?php if ($rol === 'alumno'): ?>
+                    <li><a href="carreras.php" class="<?= basename($_SERVER['PHP_SELF']) == 'carreras.php' ? 'active' : '' ?>">Carreras</a></li>
+                    <li><a href="materias.php" class="<?= basename($_SERVER['PHP_SELF']) == 'materias.php' ? 'active' : '' ?>">Materias</a></li>
+                    <li><a href="notas.php" class="<?= basename($_SERVER['PHP_SELF']) == 'notas.php' ? 'active' : '' ?>">Notas</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
-
     </header>
+

@@ -3,6 +3,10 @@ include 'conexion.php';
 include 'header.php';
 include 'funciones.php';
 
+// Determinar rol del usuario
+$rol = $_SESSION['rol'] ?? '';
+$solo_lectura = ($rol === 'alumno'); // solo los alumnos no pueden modificar/agregar
+
 // Obtener término de búsqueda si existe
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : "";
 
@@ -90,10 +94,11 @@ if ($result->num_rows > 0) {
         <button type="submit">Buscar</button>
     </form>
 
-    <!-- Botón Agregar Nota -->
-    <a href="alta_notas.php"><button class="btn-azul">Agregar Nota Nueva</button></a>
+    <!-- Botón Agregar Nota solo si no es solo lectura -->
+    <?php if (!$solo_lectura): ?>
+        <a href="alta_notas.php"><button class="btn-azul">Agregar Nota Nueva</button></a>
+    <?php endif; ?>
 </div>
-
 
 <table border="1" cellpadding="8" cellspacing="0" style="width:100%; text-align:center;">
     <tr>
@@ -104,7 +109,9 @@ if ($result->num_rows > 0) {
         <th>Nota 1</th>
         <th>Nota 2</th>
         <th>Nota 3</th>
-        <th>Acciones</th>
+        <?php if (!$solo_lectura): ?>
+            <th>Acciones</th>
+        <?php endif; ?>
     </tr>
     <?php foreach ($estudiantes as $id => $est): ?>
         <?php foreach ($est['notas'] as $n): ?>
@@ -116,17 +123,19 @@ if ($result->num_rows > 0) {
                 <td><?= htmlspecialchars($n['nota1']) ?></td>
                 <td><?= htmlspecialchars($n['nota2']) ?></td>
                 <td><?= htmlspecialchars($n['nota3']) ?></td>
-                <td>
-                    <a class="btn btn-inspeccionar" 
-                       href="modificar_notas.php?id_alumno=<?= $id ?>&id_materia=<?= $n['id_materia'] ?>"><i class="fas fa-edit"></i></a>
-                </td>
+                <?php if (!$solo_lectura): ?>
+                    <td>
+                        <a class="btn btn-inspeccionar" 
+                           href="modificar_notas.php?id_alumno=<?= $id ?>&id_materia=<?= $n['id_materia'] ?>"><i class="fas fa-edit"></i></a>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach; ?>
     <?php endforeach; ?>
 </table>
 
-
 <?php include 'footer.php'; ?>
+
 
 
 

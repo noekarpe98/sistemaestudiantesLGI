@@ -6,14 +6,20 @@ error_reporting(E_ALL);
 
 include 'conexion.php';
 
+// 🔹 Si ya hay sesión, redirigir al index
+if (isset($_SESSION['id_usuario'])) {
+    header("Location: index.php");
+    exit;
+}
+
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['username'];
     $password = $_POST['password'];
 
-    // Consulta usando la tabla y columnas correctas
-    $stmt = $conn->prepare("SELECT id, username, password FROM usuarios WHERE username = ?");
+    // Traemos también el rol
+    $stmt = $conn->prepare("SELECT id, username, password, rol FROM usuarios WHERE username = ?");
     $stmt->bind_param("s", $usuario);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -21,12 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
 
-        // Comparación simple si la contraseña no está hasheada
+        // Comparación simple (⚠️ luego deberías usar password_hash)
         if ($password === $row['password']) {
             $_SESSION['id_usuario'] = $row['id'];
             $_SESSION['username'] = $row['username'];
+            $_SESSION['rol'] = $row['rol'];
 
-            // Redirige al dashboard
+            // Redirigir al index.php (un solo dashboard para todos los roles)
             header("Location: index.php");
             exit;
         } else {

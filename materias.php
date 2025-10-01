@@ -2,6 +2,10 @@
 include 'conexion.php';
 include 'header.php';
 
+// Determinar rol del usuario
+$rol = $_SESSION['rol'] ?? '';
+$solo_lectura = ($rol !== 'admin'); // solo admin puede modificar/agregar/borrar
+
 // Obtener término de búsqueda si existe
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : "";
 
@@ -55,8 +59,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-
-<!-- Header Materias: filtro + buscador + alta -->
+<!-- Header Materias: filtro + buscador -->
 <div class="header-materias">
     <form method="GET" class="buscar-materias">
         <!-- Filtro por profesor -->
@@ -77,29 +80,36 @@ $result = $stmt->get_result();
         <button type="submit">Buscar</button>
     </form>
 
-    <!-- Botón Agregar Materia -->
-    <a href="alta_materias.php"><button class="btn-alta">Agregar Materia</button></a>
+    <!-- Botón Agregar Materia solo para admin -->
+    <?php if (!$solo_lectura): ?>
+        <a href="alta_materias.php"><button class="btn-alta">Agregar Materia</button></a>
+    <?php endif; ?>
 </div>
 
 <table border="1" style="width:100%; border-collapse: collapse;">
     <tr>
         <th>Materia</th>
         <th>Profesor</th>
-        <th>Acciones</th>
+        <?php if (!$solo_lectura): ?>
+            <th>Acciones</th>
+        <?php endif; ?>
     </tr>
     <?php while($row = $result->fetch_assoc()): ?>
         <tr>
             <td><?= htmlspecialchars($row['materia']) ?></td>
-            <td><?= htmlspecialchars($row['profesor_nombre'] . ' ' . $row['profesor_apellido']) ?></td>
-            <td>
-                <a href="modificar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-modificar"><i class="fas fa-edit"></i></a>
-                <a href="eliminar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-borrar"><i class="fas fa-trash"></i></a>
-            </td>
+            <td style="text-align: left;"><?= htmlspecialchars($row['profesor_nombre'] . ' ' . $row['profesor_apellido']) ?></td>
+            <?php if (!$solo_lectura): ?>
+                <td>
+                    <a href="modificar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-modificar"><i class="fas fa-edit"></i></a>
+                    <a href="eliminar_materias.php?id=<?= $row['id_materia'] ?>" class="btn-borrar"><i class="fas fa-trash"></i></a>
+                </td>
+            <?php endif; ?>
         </tr>
     <?php endwhile; ?>
 </table>
 
 <?php include 'footer.php'; ?>
+
 
 
 

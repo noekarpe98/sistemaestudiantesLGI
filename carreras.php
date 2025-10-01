@@ -2,6 +2,10 @@
 include 'conexion.php';
 include 'header.php';
 
+// Determinar rol del usuario
+$rol = $_SESSION['rol'] ?? '';
+$solo_lectura = ($rol !== 'admin'); // solo admin puede modificar/agregar/borrar
+
 // Obtener término de búsqueda si existe
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : "";
 
@@ -16,9 +20,7 @@ while ($d = $duraciones_result->fetch_assoc()) {
 }
 
 // Construir consulta de carreras
-$sql = "SELECT c.id_carrera, c.nombre AS carrera, c.duracion_anios
-        FROM carreras c";
-
+$sql = "SELECT c.id_carrera, c.nombre AS carrera, c.duracion_anios FROM carreras c";
 $params = [];
 $types = [];
 $where = [];
@@ -51,7 +53,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-
 <!-- Header Carreras: filtro + buscador + alta -->
 <div class="header-materias">
     <form method="GET" class="buscar-materias">
@@ -73,26 +74,33 @@ $result = $stmt->get_result();
         <button type="submit">Buscar</button>
     </form>
 
-    <!-- Botón Agregar Carrera -->
-    <a href="alta_carreras.php"><button class="btn-alta">Agregar Carrera</button></a>
+    <!-- Botón Agregar Carrera solo para admin -->
+    <?php if (!$solo_lectura): ?>
+        <a href="alta_carreras.php"><button class="btn-alta">Agregar Carrera</button></a>
+    <?php endif; ?>
 </div>
 
 <table border="1" style="width:100%; border-collapse: collapse;">
     <tr>
         <th>Carrera</th>
         <th>Duración (años)</th>
-        <th>Acciones</th>
+        <?php if (!$solo_lectura): ?>
+            <th>Acciones</th>
+        <?php endif; ?>
     </tr>
     <?php while($row = $result->fetch_assoc()): ?>
         <tr>
             <td><?= htmlspecialchars($row['carrera']) ?></td>
-            <td><?= htmlspecialchars($row['duracion_anios']) ?></td>
-            <td>
-                <a href="modificar_carreras.php?id=<?= $row['id_carrera'] ?>" class="btn-modificar"><i class="fas fa-edit"></i></a>
-                <a href="eliminar_carreras.php?id=<?= $row['id_carrera'] ?>" class="btn-borrar"><i class="fas fa-trash"></i></a>
-            </td>
+            <td style="text-align: left;"><?= htmlspecialchars($row['duracion_anios']) ?></td>
+            <?php if (!$solo_lectura): ?>
+                <td>
+                    <a href="modificar_carreras.php?id=<?= $row['id_carrera'] ?>" class="btn-modificar"><i class="fas fa-edit"></i></a>
+                    <a href="eliminar_carreras.php?id=<?= $row['id_carrera'] ?>" class="btn-borrar"><i class="fas fa-trash"></i></a>
+                </td>
+            <?php endif; ?>
         </tr>
     <?php endwhile; ?>
 </table>
 
 <?php include 'footer.php'; ?>
+
