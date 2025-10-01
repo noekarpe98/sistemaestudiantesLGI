@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             $mensaje = "<p style='color:green; text-align:center;'>Alumno agregado correctamente.</p>";
+            
             // Redirigir a la tabla después de 2 segundos
             echo "<script>
                     setTimeout(function() {

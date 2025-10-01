@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Ingresar</h2>
         <?php if ($mensaje) echo "<p class='mensaje-error'>$mensaje</p>"; ?>
         <form method="POST" class="form-login">
             <input type="text" name="username" placeholder="Usuario" required class="input-login">
